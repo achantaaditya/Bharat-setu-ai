@@ -1,0 +1,3391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>BharatSetu AI | Connecting Citizens, Services & Solutions</title>
+
+  <meta
+    name="description"
+    content="BharatSetu AI is an AI-powered civic technology platform for public-service discovery, issue reporting and transparent complaint tracking."
+  />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            navy: "#0B1F3A",
+            brand: "#155EEF",
+            saffron: "#F59E0B",
+            indiaGreen: "#16A34A"
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    .dark body {
+      background: #020617;
+      color: #f8fafc;
+    }
+
+    .glass {
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.5);
+    }
+
+    .dark .glass {
+      background: rgba(15,23,42,.75);
+      border-color: rgba(255,255,255,.08);
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        90deg,
+        #155EEF,
+        #F59E0B,
+        #16A34A
+      );
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(21,94,239,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21,94,239,.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .sidebar-link.active {
+      background: #eaf1ff;
+      color: #155eef;
+      font-weight: 600;
+    }
+
+    .dark .sidebar-link.active {
+      background: rgba(21,94,239,.15);
+      color: #60a5fa;
+    }
+
+    .chat-scroll {
+      height: 460px;
+      overflow-y: auto;
+    }
+
+    .modal {
+      display: none;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .mobile-menu {
+      transform: translateX(-100%);
+      transition: .3s ease;
+    }
+
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+
+    @media (max-width: 768px) {
+      .desktop-sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ========================================================= -->
+<!-- LANDING PAGE -->
+<!-- ========================================================= -->
+
+<div id="landingPage" class="page active">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="h-20 flex items-center justify-between">
+
+        <div class="flex items-center gap-3 cursor-pointer"
+             onclick="showPage('landingPage')">
+
+          <div class="w-11 h-11 rounded-xl bg-navy flex items-center justify-center shadow-lg">
+            <i data-lucide="network" class="text-white"></i>
+          </div>
+
+          <div>
+            <h1 class="font-bold text-xl text-navy dark:text-white">
+              BharatSetu <span class="text-brand">AI</span>
+            </h1>
+            <p class="text-xs text-slate-500">
+              Connecting India
+            </p>
+          </div>
+
+        </div>
+
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+
+          <a href="#problem" class="hover:text-brand">Problem</a>
+          <a href="#solution" class="hover:text-brand">Solution</a>
+          <a href="#how" class="hover:text-brand">How It Works</a>
+          <a href="#impact" class="hover:text-brand">Impact</a>
+
+        </div>
+
+        <div class="flex items-center gap-3">
+
+          <button
+            onclick="toggleDark()"
+            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+            <i data-lucide="moon" class="w-5"></i>
+          </button>
+
+          <button
+            onclick="openLogin()"
+            class="hidden sm:block px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 font-semibold">
+            Sign In
+          </button>
+
+          <button
+            onclick="openRegister()"
+            class="px-5 py-2.5 rounded-xl bg-brand text-white font-semibold shadow-lg shadow-blue-500/20">
+            Get Started
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+
+  <section class="pt-36 pb-24 hero-grid">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <div>
+
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-950/50 text-brand text-sm font-semibold mb-6">
+
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+
+            AI-Powered Civic Technology
+
+          </div>
+
+          <h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tight">
+
+            Connecting
+            <span class="gradient-text">
+              Citizens,
+            </span>
+
+            <br />
+
+            Services & Solutions.
+
+          </h1>
+
+          <p class="mt-7 text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed">
+
+            BharatSetu AI makes it easier to discover public services,
+            report community issues and track solutions through one
+            intelligent platform.
+
+          </p>
+
+          <div class="flex flex-wrap gap-4 mt-9">
+
+            <button
+              onclick="openRegister()"
+              class="px-7 py-4 bg-brand text-white rounded-xl font-bold shadow-xl shadow-blue-500/20 flex items-center gap-2">
+
+              Get Started
+
+              <i data-lucide="arrow-right"></i>
+
+            </button>
+
+            <button
+              onclick="showPage('dashboardPage')"
+              class="px-7 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-bold">
+
+              Explore Demo
+
+            </button>
+
+          </div>
+
+          <p class="mt-6 text-xs text-slate-500">
+            Independent innovation prototype for Viksit Bharat 2047.
+          </p>
+
+        </div>
+
+
+        <!-- HERO DASHBOARD -->
+
+        <div class="relative">
+
+          <div class="absolute -inset-5 bg-blue-500/10 blur-3xl rounded-full"></div>
+
+          <div class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 p-5">
+
+            <div class="flex items-center justify-between mb-5">
+
+              <div>
+                <p class="text-sm text-slate-500">
+                  Citizen Dashboard
+                </p>
+
+                <h3 class="font-bold text-lg">
+                  Good morning 👋
+                </h3>
+              </div>
+
+              <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                <i data-lucide="user" class="text-brand"></i>
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+
+              <div class="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/30">
+                <p class="text-xs text-slate-500">Complaints</p>
+                <p class="text-2xl font-bold mt-1">12</p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-green-50 dark:bg-green-950/30">
+                <p class="text-xs text-slate-500">Resolved</p>
+                <p class="text-2xl font-bold mt-1">8</p>
+              </div>
+
+            </div>
+
+            <div class="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800">
+
+              <div class="flex items-center gap-3">
+
+                <div class="w-10 h-10 rounded-xl bg-brand flex items-center justify-center">
+                  <i data-lucide="bot" class="text-white"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold text-sm">
+                    BharatSetu AI
+                  </p>
+
+                  <p class="text-xs text-slate-500">
+                    How can I help you today?
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="mt-3 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
+
+              <div class="flex items-center gap-3">
+
+                <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
+                  <i data-lucide="graduation-cap" class="text-orange-600"></i>
+                </div>
+
+                <div>
+                  <p class="font-semibold text-sm">
+                    Education Support
+                  </p>
+
+                  <p class="text-xs text-slate-500">
+                    Recommended for you
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROBLEM -->
+
+  <section id="problem" class="py-24 bg-white dark:bg-slate-950">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="max-w-2xl mb-14">
+
+        <span class="text-brand font-bold text-sm">
+          THE PROBLEM
+        </span>
+
+        <h2 class="text-4xl font-bold mt-3">
+          Public services shouldn't be difficult to navigate.
+        </h2>
+
+        <p class="mt-5 text-slate-600 dark:text-slate-400">
+          Citizens often face fragmented information, complicated
+          processes and limited visibility into service requests.
+        </p>
+
+      </div>
+
+
+      <div class="grid md:grid-cols-4 gap-5">
+
+        <div class="p-6 rounded-2xl border bg-slate-50 dark:bg-slate-900 dark:border-slate-800">
+
+          <i data-lucide="search-x" class="text-brand w-9 h-9"></i>
+
+          <h3 class="font-bold text-lg mt-5">
+            Hard to Find
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Citizens may struggle to identify the right service.
+          </p>
+
+        </div>
+
+        <div class="p-6 rounded-2xl border bg-slate-50 dark:bg-slate-900 dark:border-slate-800">
+
+          <i data-lucide="file-warning" class="text-orange-500 w-9 h-9"></i>
+
+          <h3 class="font-bold text-lg mt-5">
+            Complex Processes
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Information can be scattered across different channels.
+          </p>
+
+        </div>
+
+        <div class="p-6 rounded-2xl border bg-slate-50 dark:bg-slate-900 dark:border-slate-800">
+
+          <i data-lucide="eye-off" class="text-purple-500 w-9 h-9"></i>
+
+          <h3 class="font-bold text-lg mt-5">
+            Limited Visibility
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Tracking the progress of requests can be difficult.
+          </p>
+
+        </div>
+
+        <div class="p-6 rounded-2xl border bg-slate-50 dark:bg-slate-900 dark:border-slate-800">
+
+          <i data-lucide="unplug" class="text-green-600 w-9 h-9"></i>
+
+          <h3 class="font-bold text-lg mt-5">
+            Disconnected Systems
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Citizens may need to navigate multiple systems.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- SOLUTION -->
+
+  <section id="solution" class="py-24 bg-slate-50 dark:bg-slate-900">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="text-center max-w-3xl mx-auto">
+
+        <span class="text-brand font-bold text-sm">
+          OUR SOLUTION
+        </span>
+
+        <h2 class="text-4xl font-bold mt-3">
+          One intelligent platform for citizen needs.
+        </h2>
+
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
+
+        <div class="bg-white dark:bg-slate-950 p-7 rounded-2xl border dark:border-slate-800">
+
+          <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+            <i data-lucide="bot" class="text-brand"></i>
+          </div>
+
+          <h3 class="font-bold text-lg mt-5">
+            AI Assistance
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Understand citizen questions and recommend relevant services.
+          </p>
+
+        </div>
+
+        <div class="bg-white dark:bg-slate-950 p-7 rounded-2xl border dark:border-slate-800">
+
+          <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+            <i data-lucide="search" class="text-orange-600"></i>
+          </div>
+
+          <h3 class="font-bold text-lg mt-5">
+            Service Discovery
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Search and discover public services through one interface.
+          </p>
+
+        </div>
+
+        <div class="bg-white dark:bg-slate-950 p-7 rounded-2xl border dark:border-slate-800">
+
+          <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+            <i data-lucide="flag" class="text-green-600"></i>
+          </div>
+
+          <h3 class="font-bold text-lg mt-5">
+            Smart Reporting
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Report local issues and track them transparently.
+          </p>
+
+        </div>
+
+        <div class="bg-white dark:bg-slate-950 p-7 rounded-2xl border dark:border-slate-800">
+
+          <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
+            <i data-lucide="bar-chart-3" class="text-purple-600"></i>
+          </div>
+
+          <h3 class="font-bold text-lg mt-5">
+            Data Insights
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Help administrators understand service demand and trends.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+
+  <section id="how" class="py-24 bg-white dark:bg-slate-950">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="text-center">
+
+        <span class="text-brand font-bold text-sm">
+          HOW IT WORKS
+        </span>
+
+        <h2 class="text-4xl font-bold mt-3">
+          From need to solution.
+        </h2>
+
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8 mt-16">
+
+        <div class="text-center">
+
+          <div class="mx-auto w-16 h-16 rounded-2xl bg-blue-100 text-brand flex items-center justify-center text-2xl font-bold">
+            01
+          </div>
+
+          <h3 class="font-bold mt-5">
+            Share Your Need
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Tell BharatSetu what you need.
+          </p>
+
+        </div>
+
+        <div class="text-center">
+
+          <div class="mx-auto w-16 h-16 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-bold">
+            02
+          </div>
+
+          <h3 class="font-bold mt-5">
+            AI Understands
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            AI identifies your intent and category.
+          </p>
+
+        </div>
+
+        <div class="text-center">
+
+          <div class="mx-auto w-16 h-16 rounded-2xl bg-green-100 text-green-600 flex items-center justify-center text-2xl font-bold">
+            03
+          </div>
+
+          <h3 class="font-bold mt-5">
+            Find Services
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Discover relevant services and resources.
+          </p>
+
+        </div>
+
+        <div class="text-center">
+
+          <div class="mx-auto w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl font-bold">
+            04
+          </div>
+
+          <h3 class="font-bold mt-5">
+            Track Progress
+          </h3>
+
+          <p class="text-sm text-slate-500 mt-2">
+            Follow your request from submission to resolution.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- IMPACT -->
+
+  <section id="impact" class="py-24 bg-navy text-white">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="text-center">
+
+        <span class="text-orange-300 font-bold text-sm">
+          DEMO IMPACT
+        </span>
+
+        <h2 class="text-4xl font-bold mt-3">
+          Designed for measurable public impact.
+        </h2>
+
+        <p class="text-blue-100 mt-4">
+          Prototype / Demo Data
+        </p>
+
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-5 mt-14">
+
+        <div class="p-7 rounded-2xl bg-white/10 border border-white/10 text-center">
+          <p class="text-4xl font-black">10K+</p>
+          <p class="mt-2 text-blue-100">Citizens Supported</p>
+        </div>
+
+        <div class="p-7 rounded-2xl bg-white/10 border border-white/10 text-center">
+          <p class="text-4xl font-black">2.4K+</p>
+          <p class="mt-2 text-blue-100">Issues Reported</p>
+        </div>
+
+        <div class="p-7 rounded-2xl bg-white/10 border border-white/10 text-center">
+          <p class="text-4xl font-black">1.8K+</p>
+          <p class="mt-2 text-blue-100">Issues Resolved</p>
+        </div>
+
+        <div class="p-7 rounded-2xl bg-white/10 border border-white/10 text-center">
+          <p class="text-4xl font-black">85%</p>
+          <p class="mt-2 text-blue-100">Demo SLA Compliance</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+
+  <footer class="bg-slate-950 text-white py-12">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+      <div class="flex flex-col md:flex-row justify-between gap-8">
+
+        <div>
+
+          <h2 class="font-bold text-xl">
+            BharatSetu <span class="text-blue-400">AI</span>
+          </h2>
+
+          <p class="text-slate-400 mt-3 max-w-md">
+            Connecting citizens, services and solutions through
+            intelligent civic technology.
+          </p>
+
+        </div>
+
+        <div class="text-sm text-slate-500">
+          Independent innovation prototype<br />
+          Viksit Bharat 2047
+        </div>
+
+      </div>
+
+      <div class="border-t border-slate-800 mt-10 pt-6 text-sm text-slate-500">
+        © 2026 BharatSetu AI. Prototype / Demo Application.
+      </div>
+
+    </div>
+
+  </footer>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- APPLICATION -->
+<!-- ========================================================= -->
+
+<div id="appPage" class="page">
+
+  <!-- MOBILE SIDEBAR -->
+
+  <div
+    id="mobileMenu"
+    class="mobile-menu fixed inset-y-0 left-0 w-72 bg-white dark:bg-slate-950 z-[100] shadow-2xl p-5">
+
+    <div class="flex items-center justify-between mb-8">
+
+      <h2 class="font-bold text-xl">
+        BharatSetu <span class="text-brand">AI</span>
+      </h2>
+
+      <button onclick="toggleMobileMenu()">
+        <i data-lucide="x"></i>
+      </button>
+
+    </div>
+
+    <div id="mobileLinks"></div>
+
+  </div>
+
+
+  <!-- DESKTOP SIDEBAR -->
+
+  <aside class="desktop-sidebar fixed left-0 top-0 bottom-0 w-64 bg-white dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 z-40">
+
+    <div class="h-20 px-6 flex items-center border-b border-slate-100 dark:border-slate-800">
+
+      <div class="flex items-center gap-3">
+
+        <div class="w-10 h-10 bg-navy rounded-xl flex items-center justify-center">
+          <i data-lucide="network" class="text-white"></i>
+        </div>
+
+        <div>
+
+          <p class="font-bold">
+            BharatSetu <span class="text-brand">AI</span>
+          </p>
+
+          <p class="text-[10px] text-slate-500">
+            CIVIC TECHNOLOGY
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="p-4 space-y-1">
+
+      <button onclick="showAppSection('dashboard')" class="sidebar-link active w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="layout-dashboard"></i>
+        Dashboard
+      </button>
+
+      <button onclick="showAppSection('assistant')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="bot"></i>
+        AI Assistant
+      </button>
+
+      <button onclick="showAppSection('services')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="search"></i>
+        Services
+      </button>
+
+      <button onclick="showAppSection('complaints')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="file-warning"></i>
+        My Complaints
+      </button>
+
+      <button onclick="showAppSection('education')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="graduation-cap"></i>
+        Education
+      </button>
+
+      <button onclick="showAppSection('agriculture')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="wheat"></i>
+        Agriculture
+      </button>
+
+      <button onclick="showAppSection('healthcare')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="heart-pulse"></i>
+        Healthcare
+      </button>
+
+      <button onclick="showAppSection('finance')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="wallet"></i>
+        Financial Inclusion
+      </button>
+
+      <button onclick="showAppSection('sustainability')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="leaf"></i>
+        Sustainability
+      </button>
+
+      <div class="border-t border-slate-200 dark:border-slate-800 my-4"></div>
+
+      <button onclick="showAppSection('notifications')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="bell"></i>
+        Notifications
+        <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full">
+          3
+        </span>
+      </button>
+
+      <button onclick="showAppSection('profile')" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm">
+        <i data-lucide="user"></i>
+        Profile
+      </button>
+
+      <button onclick="logout()" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-red-500">
+        <i data-lucide="log-out"></i>
+        Logout
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="md:ml-64 min-h-screen">
+
+    <!-- TOP NAV -->
+
+    <header class="sticky top-0 z-30 bg-white/90 dark:bg-slate-950/90 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+
+      <div class="h-20 px-5 lg:px-8 flex items-center justify-between">
+
+        <div class="flex items-center gap-4">
+
+          <button
+            onclick="toggleMobileMenu()"
+            class="md:hidden w-10 h-10 rounded-xl border flex items-center justify-center">
+
+            <i data-lucide="menu"></i>
+
+          </button>
+
+          <div class="hidden sm:flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-900 rounded-xl">
+
+            <i data-lucide="search" class="w-4 text-slate-400"></i>
+
+            <input
+              class="bg-transparent outline-none text-sm w-48"
+              placeholder="Search services..." />
+
+          </div>
+
+        </div>
+
+
+        <div class="flex items-center gap-3">
+
+          <select class="bg-transparent text-sm outline-none hidden sm:block">
+            <option>English</option>
+            <option>తెలుగు</option>
+            <option>हिन्दी</option>
+          </select>
+
+          <button
+            onclick="toggleDark()"
+            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+
+            <i data-lucide="moon" class="w-4"></i>
+
+          </button>
+
+          <button
+            onclick="showAppSection('notifications')"
+            class="relative w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+
+            <i data-lucide="bell" class="w-4"></i>
+
+            <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500"></span>
+
+          </button>
+
+          <div class="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center font-bold">
+            A
+          </div>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <div class="p-5 lg:p-8">
+
+
+      <!-- DASHBOARD -->
+
+      <section id="dashboardSection" class="app-section">
+
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-8">
+
+          <div>
+
+            <p class="text-sm text-slate-500">
+              Citizen Dashboard
+            </p>
+
+            <h1 class="text-3xl font-bold mt-1">
+              Good morning, Citizen 👋
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+              Here's what's happening with your services and requests.
+            </p>
+
+          </div>
+
+          <button
+            onclick="showAppSection('newComplaint')"
+            class="px-5 py-3 bg-brand text-white rounded-xl font-semibold flex items-center gap-2">
+
+            <i data-lucide="plus"></i>
+            Report an Issue
+
+          </button>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-5">
+
+            <div class="flex justify-between">
+
+              <div>
+                <p class="text-sm text-slate-500">My Complaints</p>
+                <p class="text-3xl font-bold mt-2">12</p>
+              </div>
+
+              <div class="w-11 h-11 bg-blue-100 rounded-xl flex items-center justify-center">
+                <i data-lucide="file-warning" class="text-brand"></i>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-5">
+
+            <div class="flex justify-between">
+
+              <div>
+                <p class="text-sm text-slate-500">Active Requests</p>
+                <p class="text-3xl font-bold mt-2">4</p>
+              </div>
+
+              <div class="w-11 h-11 bg-orange-100 rounded-xl flex items-center justify-center">
+                <i data-lucide="clock" class="text-orange-600"></i>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-5">
+
+            <div class="flex justify-between">
+
+              <div>
+                <p class="text-sm text-slate-500">Resolved</p>
+                <p class="text-3xl font-bold mt-2">8</p>
+              </div>
+
+              <div class="w-11 h-11 bg-green-100 rounded-xl flex items-center justify-center">
+                <i data-lucide="check-circle" class="text-green-600"></i>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-5">
+
+            <div class="flex justify-between">
+
+              <div>
+                <p class="text-sm text-slate-500">Saved Services</p>
+                <p class="text-3xl font-bold mt-2">7</p>
+              </div>
+
+              <div class="w-11 h-11 bg-purple-100 rounded-xl flex items-center justify-center">
+                <i data-lucide="bookmark" class="text-purple-600"></i>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUICK ACTIONS -->
+
+        <div class="mt-8">
+
+          <h2 class="font-bold text-xl mb-4">
+            Quick Actions
+          </h2>
+
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+            <button
+              onclick="showAppSection('assistant')"
+              class="text-left p-5 bg-brand text-white rounded-2xl">
+
+              <i data-lucide="bot"></i>
+
+              <h3 class="font-bold mt-5">
+                Ask AI
+              </h3>
+
+              <p class="text-sm text-blue-100 mt-1">
+                Get help finding services
+              </p>
+
+            </button>
+
+
+            <button
+              onclick="showAppSection('services')"
+              class="text-left p-5 bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl">
+
+              <i data-lucide="search" class="text-brand"></i>
+
+              <h3 class="font-bold mt-5">
+                Find Services
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                Discover public services
+              </p>
+
+            </button>
+
+
+            <button
+              onclick="showAppSection('newComplaint')"
+              class="text-left p-5 bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl">
+
+              <i data-lucide="flag" class="text-orange-500"></i>
+
+              <h3 class="font-bold mt-5">
+                Report Issue
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                Report a local problem
+              </p>
+
+            </button>
+
+
+            <button
+              onclick="showAppSection('complaints')"
+              class="text-left p-5 bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl">
+
+              <i data-lucide="map" class="text-green-600"></i>
+
+              <h3 class="font-bold mt-5">
+                Track Complaint
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                Check your requests
+              </p>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- RECOMMENDATIONS + RECENT -->
+
+        <div class="grid lg:grid-cols-2 gap-6 mt-8">
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="flex justify-between items-center">
+
+              <h2 class="font-bold text-xl">
+                Recommended for You
+              </h2>
+
+              <button
+                onclick="showAppSection('services')"
+                class="text-sm text-brand">
+                View all
+              </button>
+
+            </div>
+
+
+            <div class="mt-5 space-y-4">
+
+              <div class="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+
+                <div class="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+                  <i data-lucide="graduation-cap" class="text-brand"></i>
+                </div>
+
+                <div>
+
+                  <h3 class="font-semibold">
+                    Education Support
+                  </h3>
+
+                  <p class="text-sm text-slate-500 mt-1">
+                    Skill and scholarship resources.
+                  </p>
+
+                  <button class="text-brand text-sm mt-2 font-medium">
+                    View Details →
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              <div class="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800">
+
+                <div class="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
+                  <i data-lucide="leaf" class="text-green-600"></i>
+                </div>
+
+                <div>
+
+                  <h3 class="font-semibold">
+                    Sustainability Resources
+                  </h3>
+
+                  <p class="text-sm text-slate-500 mt-1">
+                    Environmental support and reporting.
+                  </p>
+
+                  <button class="text-brand text-sm mt-2 font-medium">
+                    View Details →
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="flex justify-between items-center">
+
+              <h2 class="font-bold text-xl">
+                Recent Complaints
+              </h2>
+
+              <button
+                onclick="showAppSection('complaints')"
+                class="text-sm text-brand">
+                View all
+              </button>
+
+            </div>
+
+
+            <div class="mt-5 space-y-3">
+
+              <div class="flex items-center justify-between p-4 border dark:border-slate-800 rounded-xl">
+
+                <div>
+
+                  <p class="font-semibold text-sm">
+                    #BS-10245
+                  </p>
+
+                  <p class="text-sm text-slate-500">
+                    Road Damage
+                  </p>
+
+                </div>
+
+                <span class="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-semibold">
+                  In Progress
+                </span>
+
+              </div>
+
+
+              <div class="flex items-center justify-between p-4 border dark:border-slate-800 rounded-xl">
+
+                <div>
+
+                  <p class="font-semibold text-sm">
+                    #BS-10241
+                  </p>
+
+                  <p class="text-sm text-slate-500">
+                    Street Light
+                  </p>
+
+                </div>
+
+                <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
+                  Resolved
+                </span>
+
+              </div>
+
+
+              <div class="flex items-center justify-between p-4 border dark:border-slate-800 rounded-xl">
+
+                <div>
+
+                  <p class="font-semibold text-sm">
+                    #BS-10238
+                  </p>
+
+                  <p class="text-sm text-slate-500">
+                    Water Leakage
+                  </p>
+
+                </div>
+
+                <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+                  Assigned
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- AI ASSISTANT -->
+
+      <section id="assistantSection" class="app-section hidden">
+
+        <div class="mb-7">
+
+          <h1 class="text-3xl font-bold">
+            BharatSetu AI Assistant
+          </h1>
+
+          <p class="text-slate-500 mt-2">
+            Ask about public services, schemes and community support.
+          </p>
+
+        </div>
+
+
+        <div class="grid lg:grid-cols-[240px_1fr] gap-5">
+
+          <div class="hidden lg:block bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-4">
+
+            <button class="w-full text-left px-3 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-sm">
+              New conversation
+            </button>
+
+            <p class="text-xs text-slate-500 mt-6 mb-3">
+              RECENT
+            </p>
+
+            <div class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+
+              <p class="p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                Education support
+              </p>
+
+              <p class="p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                Road complaint
+              </p>
+
+              <p class="p-2 rounded-lg hover:bg-slate-100 cursor-pointer">
+                Agriculture services
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl overflow-hidden">
+
+            <div class="p-5 border-b dark:border-slate-800 flex items-center gap-3">
+
+              <div class="w-11 h-11 bg-brand rounded-xl flex items-center justify-center">
+                <i data-lucide="bot" class="text-white"></i>
+              </div>
+
+              <div>
+
+                <h2 class="font-bold">
+                  BharatSetu AI
+                </h2>
+
+                <p class="text-xs text-green-600">
+                  ● Online
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div id="chatMessages" class="chat-scroll p-6 space-y-5">
+
+              <div class="flex gap-3">
+
+                <div class="w-9 h-9 bg-brand rounded-lg flex items-center justify-center shrink-0">
+                  <i data-lucide="bot" class="text-white w-4"></i>
+                </div>
+
+                <div class="max-w-xl bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tl-none p-4">
+
+                  <p class="text-sm leading-relaxed">
+                    Hello! I'm BharatSetu AI. I can help you discover
+                    public services, understand available resources,
+                    or report a community issue.
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <div id="suggestions" class="grid sm:grid-cols-2 gap-3 max-w-xl ml-12">
+
+                <button
+                  onclick="sendSuggestion('Find education support for me')"
+                  class="text-left p-3 border dark:border-slate-700 rounded-xl text-sm hover:border-brand">
+
+                  🎓 Find education support
+
+                </button>
+
+                <button
+                  onclick="sendSuggestion('How can I report a road problem?')"
+                  class="text-left p-3 border dark:border-slate-700 rounded-xl text-sm hover:border-brand">
+
+                  🛣️ Report a road problem
+
+                </button>
+
+                <button
+                  onclick="sendSuggestion('Show agriculture services')"
+                  class="text-left p-3 border dark:border-slate-700 rounded-xl text-sm hover:border-brand">
+
+                  🌾 Agriculture services
+
+                </button>
+
+                <button
+                  onclick="sendSuggestion('How do I track my complaint?')"
+                  class="text-left p-3 border dark:border-slate-700 rounded-xl text-sm hover:border-brand">
+
+                  📋 Track my complaint
+
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-4 border-t dark:border-slate-800">
+
+              <div class="flex gap-2">
+
+                <button class="w-11 h-11 border rounded-xl flex items-center justify-center">
+                  <i data-lucide="paperclip" class="w-4"></i>
+                </button>
+
+                <input
+                  id="chatInput"
+                  onkeydown="if(event.key==='Enter') sendMessage()"
+                  placeholder="Ask BharatSetu AI..."
+                  class="flex-1 px-4 border rounded-xl bg-transparent outline-none text-sm" />
+
+                <button class="w-11 h-11 border rounded-xl flex items-center justify-center">
+                  <i data-lucide="mic" class="w-4"></i>
+                </button>
+
+                <button
+                  onclick="sendMessage()"
+                  class="w-11 h-11 bg-brand text-white rounded-xl flex items-center justify-center">
+
+                  <i data-lucide="send" class="w-4"></i>
+
+                </button>
+
+              </div>
+
+              <p class="text-[10px] text-slate-400 mt-3 text-center">
+                AI-generated information should be verified with relevant official sources.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SERVICES -->
+
+      <section id="servicesSection" class="app-section hidden">
+
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-5 mb-7">
+
+          <div>
+
+            <h1 class="text-3xl font-bold">
+              Discover Services
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+              Find public services and resources in one place.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-4 mb-6">
+
+          <div class="grid md:grid-cols-3 gap-3">
+
+            <div class="flex items-center gap-3 border dark:border-slate-700 rounded-xl px-4">
+              <i data-lucide="search" class="text-slate-400 w-4"></i>
+              <input
+                id="serviceSearch"
+                onkeyup="filterServices()"
+                placeholder="Search services..."
+                class="bg-transparent outline-none py-3 w-full text-sm" />
+            </div>
+
+            <select class="border dark:border-slate-700 rounded-xl px-4 py-3 bg-transparent text-sm">
+              <option>All Categories</option>
+              <option>Education</option>
+              <option>Healthcare</option>
+              <option>Agriculture</option>
+              <option>Employment</option>
+            </select>
+
+            <select class="border dark:border-slate-700 rounded-xl px-4 py-3 bg-transparent text-sm">
+              <option>All Locations</option>
+              <option>Andhra Pradesh</option>
+              <option>Telangana</option>
+              <option>India</option>
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div id="serviceGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          <!-- SERVICE CARD -->
+
+          <div class="service-card bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="flex justify-between">
+
+              <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                <i data-lucide="graduation-cap" class="text-brand"></i>
+              </div>
+
+              <button>
+                <i data-lucide="bookmark" class="w-5 text-slate-400"></i>
+              </button>
+
+            </div>
+
+            <span class="inline-block mt-5 text-xs bg-blue-50 text-brand px-3 py-1 rounded-full">
+              Education
+            </span>
+
+            <h3 class="font-bold text-lg mt-3">
+              Education Support
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-2">
+              Discover scholarships, learning resources and skill development opportunities.
+            </p>
+
+            <button
+              onclick="showToast('Opening Education Support')"
+              class="mt-5 text-brand text-sm font-semibold">
+              View Details →
+            </button>
+
+          </div>
+
+
+          <div class="service-card bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="flex justify-between">
+
+              <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                <i data-lucide="wheat" class="text-green-600"></i>
+              </div>
+
+              <button>
+                <i data-lucide="bookmark" class="w-5 text-slate-400"></i>
+              </button>
+
+            </div>
+
+            <span class="inline-block mt-5 text-xs bg-green-50 text-green-700 px-3 py-1 rounded-full">
+              Agriculture
+            </span>
+
+            <h3 class="font-bold text-lg mt-3">
+              Agriculture Assistance
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-2">
+              Find agriculture support resources and farmer assistance information.
+            </p>
+
+            <button
+              onclick="showToast('Opening Agriculture Assistance')"
+              class="mt-5 text-brand text-sm font-semibold">
+              View Details →
+            </button>
+
+          </div>
+
+
+          <div class="service-card bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="flex justify-between">
+
+              <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center">
+                <i data-lucide="heart-pulse" class="text-red-600"></i>
+              </div>
+
+              <button>
+                <i data-lucide="bookmark" class="w-5 text-slate-400"></i>
+              </button>
+
+            </div>
+
+            <span class="inline-block mt-5 text-xs bg-red-50 text-red-700 px-3 py-1 rounded-full">
+              Healthcare
+            </span>
+
+            <h3 class="font-bold text-lg mt-3">
+              Healthcare Services
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-2">
+              Explore public healthcare resources and service information.
+            </p>
+
+            <button
+              onclick="showToast('Opening Healthcare Services')"
+              class="mt-5 text-brand text-sm font-semibold">
+              View Details →
+            </button>
+
+          </div>
+
+
+          <div class="service-card bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
+              <i data-lucide="briefcase-business" class="text-purple-600"></i>
+            </div>
+
+            <span class="inline-block mt-5 text-xs bg-purple-50 text-purple-700 px-3 py-1 rounded-full">
+              Employment
+            </span>
+
+            <h3 class="font-bold text-lg mt-3">
+              Skill Development
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-2">
+              Find skill development and career preparation resources.
+            </p>
+
+            <button
+              onclick="showToast('Opening Skill Development')"
+              class="mt-5 text-brand text-sm font-semibold">
+              View Details →
+            </button>
+
+          </div>
+
+
+          <div class="service-card bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+              <i data-lucide="wallet" class="text-orange-600"></i>
+            </div>
+
+            <span class="inline-block mt-5 text-xs bg-orange-50 text-orange-700 px-3 py-1 rounded-full">
+              Financial
+            </span>
+
+            <h3 class="font-bold text-lg mt-3">
+              Financial Inclusion
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-2">
+              Explore financial literacy and public assistance resources.
+            </p>
+
+            <button
+              onclick="showToast('Opening Financial Inclusion')"
+              class="mt-5 text-brand text-sm font-semibold">
+              View Details →
+            </button>
+
+          </div>
+
+
+          <div class="service-card bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+              <i data-lucide="leaf" class="text-green-600"></i>
+            </div>
+
+            <span class="inline-block mt-5 text-xs bg-green-50 text-green-700 px-3 py-1 rounded-full">
+              Environment
+            </span>
+
+            <h3 class="font-bold text-lg mt-3">
+              Sustainability
+            </h3>
+
+            <p class="text-sm text-slate-500 mt-2">
+              Report environmental problems and explore sustainability resources.
+            </p>
+
+            <button
+              onclick="showToast('Opening Sustainability')"
+              class="mt-5 text-brand text-sm font-semibold">
+              View Details →
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- COMPLAINTS -->
+
+      <section id="complaintsSection" class="app-section hidden">
+
+        <div class="flex flex-col md:flex-row justify-between gap-5 mb-7">
+
+          <div>
+
+            <h1 class="text-3xl font-bold">
+              My Complaints
+            </h1>
+
+            <p class="text-slate-500 mt-2">
+              Track your requests from submission to resolution.
+            </p>
+
+          </div>
+
+          <button
+            onclick="showAppSection('newComplaint')"
+            class="px-5 py-3 bg-brand text-white rounded-xl font-semibold">
+
+            + Report New Issue
+
+          </button>
+
+        </div>
+
+
+        <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl overflow-hidden">
+
+          <div class="p-5 border-b dark:border-slate-800 flex gap-5">
+
+            <button class="font-semibold text-brand">
+              All
+            </button>
+
+            <button class="text-slate-500">
+              Active
+            </button>
+
+            <button class="text-slate-500">
+              Resolved
+            </button>
+
+          </div>
+
+
+          <div class="divide-y dark:divide-slate-800">
+
+            <div class="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+              <div class="flex gap-4">
+
+                <div class="w-11 h-11 bg-orange-100 rounded-xl flex items-center justify-center shrink-0">
+                  <i data-lucide="construction" class="text-orange-600"></i>
+                </div>
+
+                <div>
+
+                  <p class="text-xs text-slate-500">
+                    #BS-10245
+                  </p>
+
+                  <h3 class="font-bold">
+                    Damaged Road
+                  </h3>
+
+                  <p class="text-sm text-slate-500">
+                    Main Road • Submitted 2 days ago
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="flex items-center gap-3">
+
+                <span class="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-xs font-semibold">
+                  In Progress
+                </span>
+
+                <button
+                  onclick="showComplaintDetails()"
+                  class="px-4 py-2 border rounded-lg text-sm">
+                  View
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+              <div class="flex gap-4">
+
+                <div class="w-11 h-11 bg-green-100 rounded-xl flex items-center justify-center shrink-0">
+                  <i data-lucide="lightbulb" class="text-green-600"></i>
+                </div>
+
+                <div>
+
+                  <p class="text-xs text-slate-500">
+                    #BS-10241
+                  </p>
+
+                  <h3 class="font-bold">
+                    Street Light
+                  </h3>
+
+                  <p class="text-sm text-slate-500">
+                    Begumpet • Resolved 4 days ago
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="flex items-center gap-3">
+
+                <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
+                  Resolved
+                </span>
+
+                <button
+                  onclick="showComplaintDetails()"
+                  class="px-4 py-2 border rounded-lg text-sm">
+                  View
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+
+              <div class="flex gap-4">
+
+                <div class="w-11 h-11 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
+                  <i data-lucide="droplets" class="text-blue-600"></i>
+                </div>
+
+                <div>
+
+                  <p class="text-xs text-slate-500">
+                    #BS-10238
+                  </p>
+
+                  <h3 class="font-bold">
+                    Water Leakage
+                  </h3>
+
+                  <p class="text-sm text-slate-500">
+                    City Center • Submitted 5 days ago
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="flex items-center gap-3">
+
+                <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+                  Assigned
+                </span>
+
+                <button
+                  onclick="showComplaintDetails()"
+                  class="px-4 py-2 border rounded-lg text-sm">
+                  View
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- NEW COMPLAINT -->
+
+      <section id="newComplaintSection" class="app-section hidden">
+
+        <div class="mb-7">
+
+          <button
+            onclick="showAppSection('complaints')"
+            class="text-sm text-brand mb-4">
+            ← Back to complaints
+          </button>
+
+          <h1 class="text-3xl font-bold">
+            Report a New Issue
+          </h1>
+
+          <p class="text-slate-500 mt-2">
+            Help improve your community by reporting an issue.
+          </p>
+
+        </div>
+
+
+        <div class="max-w-3xl">
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6">
+
+            <div class="grid md:grid-cols-2 gap-5">
+
+              <div class="md:col-span-2">
+
+                <label class="text-sm font-semibold">
+                  Issue Title
+                </label>
+
+                <input
+                  id="complaintTitle"
+                  placeholder="Example: Damaged road near school"
+                  class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent outline-none" />
+
+              </div>
+
+
+              <div>
+
+                <label class="text-sm font-semibold">
+                  Category
+                </label>
+
+                <select
+                  id="complaintCategory"
+                  class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent">
+
+                  <option>Roads</option>
+                  <option>Water</option>
+                  <option>Electricity</option>
+                  <option>Waste Management</option>
+                  <option>Education</option>
+                  <option>Healthcare</option>
+                  <option>Agriculture</option>
+                  <option>Environment</option>
+
+                </select>
+
+              </div>
+
+
+              <div>
+
+                <label class="text-sm font-semibold">
+                  Priority
+                </label>
+
+                <select
+                  class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent">
+
+                  <option>AI Recommended</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+
+                </select>
+
+              </div>
+
+
+              <div class="md:col-span-2">
+
+                <label class="text-sm font-semibold">
+                  Description
+                </label>
+
+                <textarea
+                  id="complaintDescription"
+                  rows="5"
+                  placeholder="Describe the issue..."
+                  class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent outline-none"></textarea>
+
+              </div>
+
+
+              <div>
+
+                <label class="text-sm font-semibold">
+                  State
+                </label>
+
+                <select class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent">
+                  <option>Andhra Pradesh</option>
+                  <option>Telangana</option>
+                  <option>Karnataka</option>
+                  <option>Tamil Nadu</option>
+                </select>
+
+              </div>
+
+
+              <div>
+
+                <label class="text-sm font-semibold">
+                  District
+                </label>
+
+                <input
+                  placeholder="Enter district"
+                  class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent outline-none" />
+
+              </div>
+
+
+              <div class="md:col-span-2">
+
+                <label class="text-sm font-semibold">
+                  Evidence
+                </label>
+
+                <div class="mt-2 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-10 text-center">
+
+                  <i data-lucide="upload-cloud" class="mx-auto text-slate-400 w-10 h-10"></i>
+
+                  <p class="font-semibold mt-3">
+                    Upload image or document
+                  </p>
+
+                  <p class="text-sm text-slate-500">
+                    PNG, JPG or PDF
+                  </p>
+
+                  <input type="file" class="mt-4 mx-auto text-sm" />
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="mt-7 p-4 rounded-xl bg-blue-50 dark:bg-blue-950/30">
+
+              <div class="flex gap-3">
+
+                <i data-lucide="sparkles" class="text-brand shrink-0"></i>
+
+                <div>
+
+                  <p class="font-semibold text-sm">
+                    AI Recommendation
+                  </p>
+
+                  <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    After submission, AI will analyze the issue,
+                    suggest a category, department and priority.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="flex justify-end gap-3 mt-7">
+
+              <button
+                onclick="showAppSection('complaints')"
+                class="px-5 py-3 border rounded-xl">
+                Cancel
+              </button>
+
+              <button
+                onclick="submitComplaint()"
+                class="px-6 py-3 bg-brand text-white rounded-xl font-semibold">
+                Submit Complaint
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ANALYTICS -->
+
+      <section id="analyticsSection" class="app-section hidden">
+
+        <div class="mb-7">
+
+          <h1 class="text-3xl font-bold">
+            Impact Analytics
+          </h1>
+
+          <p class="text-slate-500 mt-2">
+            Prototype analytics dashboard.
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 p-5 rounded-2xl">
+            <p class="text-sm text-slate-500">Total Issues</p>
+            <p class="text-3xl font-bold mt-2">2,450</p>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 p-5 rounded-2xl">
+            <p class="text-sm text-slate-500">Resolved</p>
+            <p class="text-3xl font-bold mt-2">1,840</p>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 p-5 rounded-2xl">
+            <p class="text-sm text-slate-500">Avg Resolution</p>
+            <p class="text-3xl font-bold mt-2">3.2d</p>
+          </div>
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 p-5 rounded-2xl">
+            <p class="text-sm text-slate-500">SLA Compliance</p>
+            <p class="text-3xl font-bold mt-2">85%</p>
+          </div>
+
+        </div>
+
+
+        <div class="grid lg:grid-cols-2 gap-5 mt-6">
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-5">
+
+            <h2 class="font-bold">
+              Complaints Over Time
+            </h2>
+
+            <canvas id="complaintChart" class="mt-5"></canvas>
+
+          </div>
+
+
+          <div class="bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-5">
+
+            <h2 class="font-bold">
+              Categories
+            </h2>
+
+            <canvas id="categoryChart" class="mt-5"></canvas>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- GENERAL MODULES -->
+
+      <section id="educationSection" class="app-section hidden">
+        <ModulePage
+          title="Education"
+          icon="graduation-cap"
+          description="Discover education, scholarship and skill-development resources."
+        ></ModulePage>
+      </section>
+
+
+      <section id="agricultureSection" class="app-section hidden">
+        <ModulePage
+          title="Agriculture"
+          icon="wheat"
+          description="Explore agriculture support and farmer resources."
+        ></ModulePage>
+      </section>
+
+
+      <section id="healthcareSection" class="app-section hidden">
+        <ModulePage
+          title="Healthcare"
+          icon="heart-pulse"
+          description="Explore public healthcare service information."
+        ></ModulePage>
+
+        <div class="mt-5 p-4 bg-orange-50 rounded-xl text-orange-800 text-sm">
+          BharatSetu AI provides general public-service information and
+          does not provide medical diagnosis or treatment.
+        </div>
+      </section>
+
+
+      <section id="financeSection" class="app-section hidden">
+        <ModulePage
+          title="Financial Inclusion"
+          icon="wallet"
+          description="Explore financial literacy and public assistance resources."
+        ></ModulePage>
+      </section>
+
+
+      <section id="sustainabilitySection" class="app-section hidden">
+        <ModulePage
+          title="Sustainability"
+          icon="leaf"
+          description="Report environmental issues and explore sustainability resources."
+        ></ModulePage>
+      </section>
+
+
+      <!-- NOTIFICATIONS -->
+
+      <section id="notificationsSection" class="app-section hidden">
+
+        <h1 class="text-3xl font-bold">
+          Notifications
+        </h1>
+
+        <p class="text-slate-500 mt-2">
+          Stay updated about your services and complaints.
+        </p>
+
+        <div class="mt-7 bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl divide-y dark:divide-slate-800">
+
+          <div class="p-5 flex gap-4">
+
+            <div class="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center">
+              <i data-lucide="check-circle" class="text-green-600"></i>
+            </div>
+
+            <div>
+
+              <h3 class="font-semibold">
+                Complaint resolved
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                Complaint #BS-10241 has been resolved.
+              </p>
+
+              <p class="text-xs text-slate-400 mt-2">
+                2 hours ago
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="p-5 flex gap-4">
+
+            <div class="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center">
+              <i data-lucide="sparkles" class="text-brand"></i>
+            </div>
+
+            <div>
+
+              <h3 class="font-semibold">
+                New service recommendation
+              </h3>
+
+              <p class="text-sm text-slate-500 mt-1">
+                A new education resource may be relevant to you.
+              </p>
+
+              <p class="text-xs text-slate-400 mt-2">
+                Yesterday
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- PROFILE -->
+
+      <section id="profileSection" class="app-section hidden">
+
+        <h1 class="text-3xl font-bold">
+          Profile
+        </h1>
+
+        <p class="text-slate-500 mt-2">
+          Manage your personal information and preferences.
+        </p>
+
+
+        <div class="max-w-3xl bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl p-6 mt-7">
+
+          <div class="flex items-center gap-5 pb-6 border-b dark:border-slate-800">
+
+            <div class="w-20 h-20 rounded-full bg-brand text-white text-2xl font-bold flex items-center justify-center">
+              A
+            </div>
+
+            <div>
+
+              <h2 class="text-xl font-bold">
+                Demo Citizen
+              </h2>
+
+              <p class="text-slate-500">
+                citizen@demo.local
+              </p>
+
+              <span class="inline-block mt-2 px-3 py-1 rounded-full bg-blue-100 text-brand text-xs">
+                CITIZEN
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="grid md:grid-cols-2 gap-5 mt-6">
+
+            <div>
+              <label class="text-sm font-semibold">
+                Full Name
+              </label>
+              <input
+                value="Demo Citizen"
+                class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent" />
+            </div>
+
+            <div>
+              <label class="text-sm font-semibold">
+                Email
+              </label>
+              <input
+                value="citizen@demo.local"
+                class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent" />
+            </div>
+
+            <div>
+              <label class="text-sm font-semibold">
+                State
+              </label>
+              <input
+                value="Andhra Pradesh"
+                class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent" />
+            </div>
+
+            <div>
+              <label class="text-sm font-semibold">
+                Language
+              </label>
+              <select class="w-full mt-2 px-4 py-3 border dark:border-slate-700 rounded-xl bg-transparent">
+                <option>English</option>
+                <option>తెలుగు</option>
+                <option>हिन्दी</option>
+              </select>
+            </div>
+
+          </div>
+
+
+          <button
+            onclick="showToast('Profile updated successfully')"
+            class="mt-7 px-6 py-3 bg-brand text-white rounded-xl font-semibold">
+            Save Changes
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- LOGIN MODAL -->
+<!-- ========================================================= -->
+
+<div
+  id="loginModal"
+  class="modal fixed inset-0 z-[200] items-center justify-center bg-black/60 backdrop-blur-sm p-5">
+
+  <div class="w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl p-7 shadow-2xl">
+
+    <div class="flex justify-between items-center">
+
+      <div>
+
+        <h2 class="text-2xl font-bold">
+          Welcome back
+        </h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Sign in to BharatSetu AI
+        </p>
+
+      </div>
+
+      <button onclick="closeModals()">
+        <i data-lucide="x"></i>
+      </button>
+
+    </div>
+
+
+    <div class="space-y-4 mt-7">
+
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Email address"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <input
+        type="password"
+        placeholder="Password"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <button
+        onclick="loginDemo()"
+        class="w-full py-3 bg-brand text-white rounded-xl font-semibold">
+        Sign In
+      </button>
+
+      <p class="text-xs text-center text-slate-500">
+        Demo: citizen@demo.local
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- REGISTER MODAL -->
+<!-- ========================================================= -->
+
+<div
+  id="registerModal"
+  class="modal fixed inset-0 z-[200] items-center justify-center bg-black/60 backdrop-blur-sm p-5">
+
+  <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl p-7 shadow-2xl max-h-[90vh] overflow-y-auto">
+
+    <div class="flex justify-between">
+
+      <div>
+
+        <h2 class="text-2xl font-bold">
+          Create your account
+        </h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+          Join BharatSetu AI
+        </p>
+
+      </div>
+
+      <button onclick="closeModals()">
+        <i data-lucide="x"></i>
+      </button>
+
+    </div>
+
+
+    <div class="space-y-4 mt-7">
+
+      <input
+        placeholder="Full Name"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <input
+        type="email"
+        placeholder="Email"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <input
+        type="tel"
+        placeholder="Phone Number"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <select class="w-full px-4 py-3 border rounded-xl bg-transparent">
+        <option>Andhra Pradesh</option>
+        <option>Telangana</option>
+        <option>Karnataka</option>
+      </select>
+
+      <input
+        type="password"
+        placeholder="Password"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <input
+        type="password"
+        placeholder="Confirm Password"
+        class="w-full px-4 py-3 border rounded-xl bg-transparent" />
+
+      <button
+        onclick="registerDemo()"
+        class="w-full py-3 bg-brand text-white rounded-xl font-semibold">
+        Create Account
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- COMPLAINT DETAIL MODAL -->
+<!-- ========================================================= -->
+
+<div
+  id="complaintModal"
+  class="modal fixed inset-0 z-[200] items-center justify-center bg-black/60 backdrop-blur-sm p-5">
+
+  <div class="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-3xl p-7 shadow-2xl max-h-[90vh] overflow-y-auto">
+
+    <div class="flex justify-between">
+
+      <div>
+
+        <p class="text-sm text-slate-500">
+          Complaint #BS-10245
+        </p>
+
+        <h2 class="text-2xl font-bold mt-1">
+          Damaged Road
+        </h2>
+
+      </div>
+
+      <button onclick="closeModals()">
+        <i data-lucide="x"></i>
+      </button>
+
+    </div>
+
+
+    <div class="grid md:grid-cols-3 gap-4 mt-7">
+
+      <div class="p-4 bg-orange-50 rounded-xl">
+        <p class="text-xs text-slate-500">
+          Status
+        </p>
+        <p class="font-bold text-orange-700 mt-1">
+          In Progress
+        </p>
+      </div>
+
+      <div class="p-4 bg-red-50 rounded-xl">
+        <p class="text-xs text-slate-500">
+          Priority
+        </p>
+        <p class="font-bold text-red-700 mt-1">
+          High
+        </p>
+      </div>
+
+      <div class="p-4 bg-blue-50 rounded-xl">
+        <p class="text-xs text-slate-500">
+          SLA
+        </p>
+        <p class="font-bold text-blue-700 mt-1">
+          2 Days
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="mt-8">
+
+      <h3 class="font-bold">
+        Complaint Timeline
+      </h3>
+
+
+      <div class="relative mt-6 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
+
+        <div class="relative pl-8 pb-8">
+
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full bg-brand"></div>
+
+          <p class="font-semibold">
+            Submitted
+          </p>
+
+          <p class="text-sm text-slate-500">
+            Complaint submitted successfully.
+          </p>
+
+          <p class="text-xs text-slate-400 mt-1">
+            Sep 26, 2026 • 10:32 AM
+          </p>
+
+        </div>
+
+
+        <div class="relative pl-8 pb-8">
+
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full bg-brand"></div>
+
+          <p class="font-semibold">
+            AI Categorized
+          </p>
+
+          <p class="text-sm text-slate-500">
+            Category: Roads • Department: Municipal Services
+          </p>
+
+        </div>
+
+
+        <div class="relative pl-8 pb-8">
+
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full bg-brand"></div>
+
+          <p class="font-semibold">
+            Assigned
+          </p>
+
+          <p class="text-sm text-slate-500">
+            Assigned to the relevant department.
+          </p>
+
+        </div>
+
+
+        <div class="relative pl-8">
+
+          <div class="absolute -left-[9px] w-4 h-4 rounded-full bg-orange-500"></div>
+
+          <p class="font-semibold">
+            In Progress
+          </p>
+
+          <p class="text-sm text-slate-500">
+            Officer is currently working on the issue.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+  id="toast"
+  class="fixed bottom-6 right-6 z-[300] translate-y-20 opacity-0 transition-all duration-300">
+
+  <div class="bg-slate-950 text-white px-5 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+
+    <i data-lucide="check-circle" class="text-green-400 w-5"></i>
+
+    <span id="toastText">
+      Success
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================================= -->
+
+<script>
+
+  lucide.createIcons();
+
+
+  /* =========================================================
+     PAGE NAVIGATION
+  ========================================================= */
+
+  function showPage(id) {
+
+    document.querySelectorAll(".page").forEach(page => {
+      page.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    lucide.createIcons();
+  }
+
+
+  function openLogin() {
+    document.getElementById("loginModal").classList.add("active");
+  }
+
+
+  function openRegister() {
+    document.getElementById("registerModal").classList.add("active");
+  }
+
+
+  function closeModals() {
+
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.classList.remove("active");
+    });
+
+  }
+
+
+  /* =========================================================
+     LOGIN
+  ========================================================= */
+
+  function loginDemo() {
+
+    closeModals();
+
+    showPage("appPage");
+
+    showAppSection("dashboard");
+
+    showToast("Welcome to BharatSetu AI");
+
+  }
+
+
+  function registerDemo() {
+
+    closeModals();
+
+    showPage("appPage");
+
+    showAppSection("dashboard");
+
+    showToast("Account created successfully");
+
+  }
+
+
+  function logout() {
+
+    showPage("landingPage");
+
+    showToast("You have been logged out");
+
+  }
+
+
+  /* =========================================================
+     APP NAVIGATION
+  ========================================================= */
+
+  function showAppSection(section) {
+
+    const sections = document.querySelectorAll(".app-section");
+
+    sections.forEach(el => {
+      el.classList.add("hidden");
+    });
+
+
+    const target = document.getElementById(
+      section + "Section"
+    );
+
+    if (target) {
+      target.classList.remove("hidden");
+    }
+
+
+    document.querySelectorAll(".sidebar-link").forEach(link => {
+      link.classList.remove("active");
+    });
+
+
+    if (section === "dashboard") {
+
+      document.querySelectorAll(".sidebar-link")[0]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "assistant") {
+
+      document.querySelectorAll(".sidebar-link")[1]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "services") {
+
+      document.querySelectorAll(".sidebar-link")[2]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "complaints") {
+
+      document.querySelectorAll(".sidebar-link")[3]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "education") {
+
+      document.querySelectorAll(".sidebar-link")[4]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "agriculture") {
+
+      document.querySelectorAll(".sidebar-link")[5]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "healthcare") {
+
+      document.querySelectorAll(".sidebar-link")[6]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "finance") {
+
+      document.querySelectorAll(".sidebar-link")[7]
+        ?.classList.add("active");
+
+    }
+
+    if (section === "sustainability") {
+
+      document.querySelectorAll(".sidebar-link")[8]
+        ?.classList.add("active");
+
+    }
+
+
+    if (section === "newComplaint") {
+
+      document.querySelectorAll(".sidebar-link").forEach(
+        link => link.classList.remove("active")
+      );
+
+    }
+
+
+    if (section === "notifications") {
+
+      document.querySelectorAll(".sidebar-link")[9]
+        ?.classList.add("active");
+
+    }
+
+
+    if (section === "profile") {
+
+      document.querySelectorAll(".sidebar-link")[10]
+        ?.classList.add("active");
+
+    }
+
+
+    toggleMobileMenu(false);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+    lucide.createIcons();
+
+  }
+
+
+  /* =========================================================
+     DARK MODE
+  ========================================================= */
+
+  function toggleDark() {
+
+    document.documentElement.classList.toggle("dark");
+
+    localStorage.setItem(
+      "bharatsetu-dark",
+      document.documentElement.classList.contains("dark")
+    );
+
+  }
+
+
+  if (
+    localStorage.getItem("bharatsetu-dark") === "true"
+  ) {
+
+    document.documentElement.classList.add("dark");
+
+  }
+
+
+  /* =========================================================
+     MOBILE MENU
+  ========================================================= */
+
+  function toggleMobileMenu(force) {
+
+    const menu =
+      document.getElementById("mobileMenu");
+
+    if (force === false) {
+
+      menu.classList.remove("open");
+
+      return;
+
+    }
+
+    menu.classList.toggle("open");
+
+  }
+
+
+  /* =========================================================
+     AI ASSISTANT
+  ========================================================= */
+
+  function sendSuggestion(text) {
+
+    document.getElementById("chatInput").value = text;
+
+    sendMessage();
+
+  }
+
+
+  function sendMessage() {
+
+    const input =
+      document.getElementById("chatInput");
+
+    const text =
+      input.value.trim();
+
+    if (!text) return;
+
+
+    const chat =
+      document.getElementById("chatMessages");
+
+
+    const userMessage = document.createElement("div");
+
+    userMessage.className =
+      "flex justify-end";
+
+
+    userMessage.innerHTML = `
+
+      <div class="max-w-xl bg-brand text-white rounded-2xl rounded-tr-none p-4">
+
+        <p class="text-sm">
+          ${escapeHtml(text)}
+        </p>
+
+      </div>
+
+    `;
+
+
+    chat.appendChild(userMessage);
+
+
+    input.value = "";
+
+    chat.scrollTop = chat.scrollHeight;
+
+
+    setTimeout(() => {
+
+      const aiMessage =
+        document.createElement("div");
+
+      aiMessage.className =
+        "flex gap-3";
+
+
+      aiMessage.innerHTML = `
+
+        <div class="w-9 h-9 bg-brand rounded-lg flex items-center justify-center shrink-0">
+
+          <i data-lucide="bot" class="text-white w-4"></i>
+
+        </div>
+
+        <div class="max-w-xl bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-tl-none p-4">
+
+          <p class="text-sm leading-relaxed">
+
+            Based on your request, I can help you identify
+            relevant public services and guide you through
+            the next steps.
+
+          </p>
+
+          <div class="mt-4 p-4 bg-white dark:bg-slate-900 rounded-xl border dark:border-slate-700">
+
+            <div class="flex items-center gap-3">
+
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+
+                <i data-lucide="search" class="text-brand w-5"></i>
+
+              </div>
+
+              <div>
+
+                <p class="font-semibold text-sm">
+                  Recommended Service
+                </p>
+
+                <p class="text-xs text-slate-500">
+                  Relevant public-service resources
+                </p>
+
+              </div>
+
+            </div>
+
+            <button
+              onclick="showAppSection('services')"
+              class="mt-3 text-brand text-sm font-semibold">
+
+              Explore Services →
+
+            </button>
+
+          </div>
+
+          <p class="text-[10px] text-slate-400 mt-3">
+            Demo AI response. Verify information through relevant official sources.
+          </p>
+
+        </div>
+
+      `;
+
+
+      chat.appendChild(aiMessage);
+
+      lucide.createIcons();
+
+      chat.scrollTop = chat.scrollHeight;
+
+    }, 700);
+
+  }
+
+
+  function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+  }
+
+
+  /* =========================================================
+     COMPLAINT
+  ========================================================= */
+
+  function submitComplaint() {
+
+    const title =
+      document.getElementById("complaintTitle").value.trim();
+
+
+    if (!title) {
+
+      showToast("Please enter an issue title");
+
+      return;
+
+    }
+
+
+    showToast(
+      "Complaint submitted successfully"
+    );
+
+
+    document.getElementById("complaintTitle").value = "";
+
+    document.getElementById("complaintDescription").value = "";
+
+
+    setTimeout(() => {
+
+      showAppSection("complaints");
+
+    }, 900);
+
+  }
+
+
+  function showComplaintDetails() {
+
+    document
+      .getElementById("complaintModal")
+      .classList.add("active");
+
+  }
+
+
+  /* =========================================================
+     SERVICE SEARCH
+  ========================================================= */
+
+  function filterServices() {
+
+    const query =
+      document
+        .getElementById("serviceSearch")
+        .value
+        .toLowerCase();
+
+
+    document
+      .querySelectorAll(".service-card")
+      .forEach(card => {
+
+        const text =
+          card.textContent.toLowerCase();
+
+        card.style.display =
+          text.includes(query)
+            ? ""
+            : "none";
+
+      });
+
+  }
+
+
+  /* =========================================================
+     TOAST
+  ========================================================= */
+
+  let toastTimer;
+
+
+  function showToast(message) {
+
+    const toast =
+      document.getElementById("toast");
+
+    const text =
+      document.getElementById("toastText");
+
+
+    text.textContent = message;
+
+
+    toast.classList.remove(
+      "translate-y-20",
+      "opacity-0"
+    );
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer = setTimeout(() => {
+
+      toast.classList.add(
+        "translate-y-20",
+        "opacity-0"
+      );
+
+    }, 2500);
+
+  }
+
+
+  /* =========================================================
+     CHARTS
+  ========================================================= */
+
+  function initializeCharts() {
+
+    const complaintCanvas =
+      document.getElementById("complaintChart");
+
+
+    if (complaintCanvas) {
+
+      new Chart(
+        complaintCanvas,
+        {
+
+          type: "line",
+
+          data: {
+
+            labels: [
+              "Mon",
+              "Tue",
+              "Wed",
+              "Thu",
+              "Fri",
+              "Sat",
+              "Sun"
+            ],
+
+            datasets: [{
+
+              label: "Complaints",
+
+              data: [
+                30,
+                45,
+                38,
+                60,
+                52,
+                70,
+                64
+              ],
+
+              borderWidth: 3,
+
+              tension: .4
+
+            }]
+
+          },
+
+          options: {
+
+            responsive: true,
+
+            plugins: {
+              legend: {
+                display: false
+              }
+            }
+
+          }
+
+        }
+
+      );
+
+    }
+
+
+    const categoryCanvas =
+      document.getElementById("categoryChart");
+
+
+    if (categoryCanvas) {
+
+      new Chart(
+        categoryCanvas,
+        {
+
+          type: "doughnut",
+
+          data: {
+
+            labels: [
+              "Roads",
+              "Water",
+              "Waste",
+              "Electricity",
+              "Other"
+            ],
+
+            datasets: [{
+
+              data: [
+                30,
+                20,
+                18,
+                17,
+                15
+              ]
+
+            }]
+
+          },
+
+          options: {
+
+            responsive: true,
+
+            plugins: {
+              legend: {
+                position: "bottom"
+              }
+            }
+
+          }
+
+        }
+
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     MODULE PAGE HELPER
+  ========================================================= */
+
+  function ModulePage() {}
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      initializeCharts();
+
+      lucide.createIcons();
+
+    }
+  );
+
+
+  /* =========================================================
+     ESC KEY
+  ========================================================= */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Escape") {
+
+        closeModals();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
